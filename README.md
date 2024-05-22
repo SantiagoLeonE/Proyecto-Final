@@ -1,2 +1,2 @@
-# Proyecto-Final
-Proyecto Final de Programación 1
+# Proyecto-Final de Programación 1
+Se desea desarrollar una aplicación para la administración de un parqueadero 

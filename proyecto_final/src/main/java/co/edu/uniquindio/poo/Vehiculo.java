@@ -1,0 +1,56 @@
+package co.edu.uniquindio.poo;
+
+public abstract class Vehiculo {
+    
+    /*
+     * Atríbutos de la clase vehículo
+     */
+    private final String modelo; 
+    private final String placa;
+    private Propietario propietario;
+
+    /**
+     * Método constructor de la clase abstracta Vehiculo
+     * @param modelo
+     * @param placa
+     * @param propietario
+     */
+    public Vehiculo(String modelo, String placa, Propietario propietario) {
+        this.modelo = modelo;
+        this.placa = placa;
+    }
+
+    /**
+     * Método get para obtener el modelo del vehículo
+     * @return
+     */
+    public String getModelo() {
+        return modelo;
+    }
+
+    /**
+     * Método get para obtener la placa del vehículo
+     * @return
+     */
+    public String getPlaca() {
+        return placa;
+    }
+
+    /**
+     * Método get para obtener el propietario del vehiculo
+     * @return
+     */
+    public Propietario getPropietario() {
+        return propietario;
+    }
+
+    /**
+     * Método para modificar el propietario del vehículo
+     * @param propietario
+     */
+    public void setPropietario(Propietario propietario) {
+        this.propietario = propietario;
+    }
+
+    public abstract double getTarifaPorHora();
+}

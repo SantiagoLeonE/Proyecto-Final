@@ -1,6 +1,10 @@
 package co.edu.uniquindio.poo;
 
 public class Propietario {
+    
+    /*
+     * Atributos propios de la clase propietario
+     */
     private String nombre;
     private String identificacion;
 

@@ -8,7 +8,7 @@ public class Carro extends Vehiculo {
     private double tarifaPorHora;
 
     /**
-     * Metodo constructor de la clase carro
+     * Metodo constructor de la clase carro que extiende y hereda atributos de la clase vehiculo
      * @param modelo
      * @param placa
      * @param propietario
@@ -32,6 +32,7 @@ public class Carro extends Vehiculo {
      * @param tarifaPorHora
      */
     public void setTarifaPorHora(double tarifaPorHora) {
+        assert tarifaPorHora > 0;
         this.tarifaPorHora = tarifaPorHora;
     }
 }

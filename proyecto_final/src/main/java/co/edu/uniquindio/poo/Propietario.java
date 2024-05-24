@@ -16,6 +16,8 @@ public class Propietario {
     public Propietario(String nombre, String identificacion) {
         this.nombre = nombre;
         this.identificacion = identificacion;
+        assert nombre != null && !nombre.isBlank();
+        assert identificacion != null && !identificacion.isBlank();
     }
 
     /**

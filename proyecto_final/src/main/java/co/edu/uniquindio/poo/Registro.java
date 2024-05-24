@@ -18,9 +18,11 @@ public class Registro {
      * @param vehiculo
      * @param puesto
      */
-    public Registro(Vehiculo vehiculo, Puesto puesto, LocalDateTime ingreso) {
+    public Registro(Vehiculo vehiculo, Puesto puesto) {
         this.ingreso = LocalDateTime.now();
+        this.vehiculo = vehiculo;
         assert vehiculo != null;
+        this.puesto = puesto;
         assert puesto != null;
     }
 
@@ -66,12 +68,20 @@ public class Registro {
         this.salida = salida;
     }
 
-    public double calcularCosto() {
+    /**
+     * Método para el valor a pagar de un vehículo dependiendo de su tiempo en el parqueadero y del tipo de
+     * vehículo
+     * @return
+     */
+    public double calcularCosto() {    
         double costo = 0;
-        if(salida != null) {
-            long minutos = java.time.Duration.between(ingreso, salida).toMinutes();
-            double horas = Math.ceil(minutos / 60);
-            costo = horas * vehiculo.getTarifaPorHora();
+        long minutos = java.time.Duration.between(ingreso, salida).toMinutes();
+        if (minutos == 0) {
+            costo = vehiculo.getTarifaPorHoraVehiculo();
+        }
+        else {
+            double horas = minutos / 60;
+            costo = Math.ceil(horas) * vehiculo.getTarifaPorHoraVehiculo();
         }
         return costo;
     }

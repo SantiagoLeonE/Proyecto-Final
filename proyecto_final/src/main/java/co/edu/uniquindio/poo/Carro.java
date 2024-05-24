@@ -5,34 +5,32 @@ public class Carro extends Vehiculo {
     /*
      * Atributos propios de la clase carro
      */
-    private double tarifaPorHora;
+    private static double tarifaCarro;
 
     /**
      * Metodo constructor de la clase carro que extiende y hereda atributos de la clase vehiculo
      * @param modelo
      * @param placa
      * @param propietario
-     * @param tarifaPorHora
      */
-    public Carro(String modelo, String placa, Propietario propietario, double tarifaPorHora) {
+    public Carro(String modelo, String placa, Propietario propietario) {
         super(modelo, placa, propietario);
-        this.tarifaPorHora = tarifaPorHora;
     }
 
     /*
      * Metodo implementado por la clase abstracta de vehiculo para obtener la tarifa por hora de un carro
      */
     @Override
-    public double getTarifaPorHora() {
-        return tarifaPorHora;
+    public double getTarifaPorHoraVehiculo() {
+        return tarifaCarro;
     }
 
     /**
      * Metodo para modificar la tarifa por hora de un carro
-     * @param tarifaPorHora
+     * @param tarifa
      */
-    public void setTarifaPorHora(double tarifaPorHora) {
-        assert tarifaPorHora > 0;
-        this.tarifaPorHora = tarifaPorHora;
+    public static void setTarifaCarro(double tarifa) {
+        assert tarifa > 0;
+        tarifaCarro = tarifa;
     }
 }

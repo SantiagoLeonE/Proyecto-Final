@@ -7,7 +7,7 @@ public abstract class Vehiculo {
      */
     private final String modelo; 
     private final String placa;
-    private Propietario propietario;
+    private final Propietario propietario;
 
     /**
      * Método constructor de la clase abstracta Vehiculo
@@ -18,6 +18,7 @@ public abstract class Vehiculo {
     public Vehiculo(String modelo, String placa, Propietario propietario) {
         this.modelo = modelo;
         this.placa = placa;
+        this.propietario = propietario;
     }
 
     /**
@@ -45,12 +46,8 @@ public abstract class Vehiculo {
     }
 
     /**
-     * Método para modificar el propietario del vehículo
-     * @param propietario
+     * Método abstracto para obtener la tarifa por hora de cada vehículo
+     * @return
      */
-    public void setPropietario(Propietario propietario) {
-        this.propietario = propietario;
-    }
-
-    public abstract double getTarifaPorHora();
+    public abstract double getTarifaPorHoraVehiculo();
 }

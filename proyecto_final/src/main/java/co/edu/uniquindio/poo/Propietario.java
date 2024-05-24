@@ -36,6 +36,13 @@ public class Propietario {
         return identificacion;
     }
 
+    /*
+     * Metodo toString para mostrar el propietario y su identificación de un vehículo
+     */
+    public String toString() {
+        return "Propietario: " + nombre + " - Identificacion: " + identificacion;
+    }
+
     /**
      * Metodo set para modificar el nombre de un propietario
      * @param nombre
@@ -51,5 +58,4 @@ public class Propietario {
     public void setIdentificacion(String identificacion) {
         this.identificacion = identificacion;
     }
-
 }

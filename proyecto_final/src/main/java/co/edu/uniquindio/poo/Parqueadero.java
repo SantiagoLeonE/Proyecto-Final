@@ -2,6 +2,7 @@ package co.edu.uniquindio.poo;
 
 import java.time.LocalDateTime;
 import java.util.List;
+ 
 import java.util.ArrayList;
 
 public class Parqueadero {
@@ -206,7 +207,9 @@ public class Parqueadero {
         puestos[i][j].ocuparPuesto(vehiculo);
         registros.add(new Registro(vehiculo, puestos[i][j], LocalDateTime.now()));
          */
-    }            
+    }    
+          
+    
 
     /**
      * Método para identificar el propietario de un vehículo en un puesto especifico
@@ -231,13 +234,16 @@ public class Parqueadero {
      * @return
      */
     public Registro obtenerRegistro(Vehiculo vehiculo) {
-        for (Registro registro : registros) {
-            if (registro.getVehiculo().equals(vehiculo) && registro.getSalida() == null) {
-                return registro;
-            }
+    for (Registro registro : registros) {
+        if (registro.getVehiculo().equals(vehiculo)) {
+            return registro;
         }
-        return null;
     }
+    return null;
+}
+
+  
+    
 
     /**
      * Método para configurar las tarifas por hora de cada vehículo
@@ -254,13 +260,15 @@ public class Parqueadero {
         Moto.setTarifaClasica(tarifaClasica);
         Moto.setTarifaHibrida(tarifaHibrida);
     }
+     
+    
 
     /**
      * Método para desocupar un puesto en el parqueadero y actualizar el recaudo diario y mensual
      * @param i
      * @param j
      */
-    public void liberarPuesto(int i, int j) {
+   public void liberarPuesto(int i, int j) {
         assert i >= 0 && i < filas;
         assert j >= 0 && j < columnas;
         if(puestos[i][j].estaOcupado()) {
@@ -269,10 +277,12 @@ public class Parqueadero {
                 registro.setSalida(LocalDateTime.now());
                 double tarifa = registro.calcularCosto();
                 actualizarRecaudaciones(tarifa);
-                puestos[i][j].desocuparPuesto();
+         
             }
+            puestos[i][j].desocuparPuesto();
         }   
     }
+ 
 
     /**
      * Método para actualizar el recaudo diaro y mensual
@@ -282,11 +292,42 @@ public class Parqueadero {
         totalRecaudadoDiario += tarifa;
         totalRecaudadoMensual += tarifa;
     }
+    public void generarReporteDiario() {
+        System.out.println("Reporte diario del parqueadero");
+        System.out.println("Total recaudado en el día: " + totalRecaudadoDiario + " Pesos\n");
+        
+        double totalCarros = 0;
+        double totalMotosClasicas = 0;
+        double totalMotosHibridas = 0;
+    
+        for (Registro registro : registros) {
+            if (registro.getSalida() != null) {
+                double costo = registro.calcularCosto();
+                if (registro.getVehiculo() instanceof Carro) {
+                    totalCarros += costo;
+                } else if (registro.getVehiculo() instanceof Moto) {
+                    Moto moto = (Moto) registro.getVehiculo();
+                    if (moto.getTipoMoto() == TipoMoto.MOTOCLASICA) {
+                        totalMotosClasicas += costo;
+                    } else if (moto.getTipoMoto() == TipoMoto.MOTOHIBRIDA) {
+                        totalMotosHibridas += costo;
+                    }
+                }
+            }
+        }
+    
+        System.out.println("Carros: " + totalCarros + " Pesos");
+        System.out.println("Motos Clásicas: " + totalMotosClasicas + " Pesos");
+        System.out.println("Motos Híbridas: " + totalMotosHibridas + " Pesos");
+        
+        totalRecaudadoDiario = totalCarros + totalMotosClasicas + totalMotosHibridas;
+    }
+    
 
     /*
      * Método para generar un reporte diario y al final reiniciar el total del recaudo para el día siguiente
      */
-    public void generarReporteDiario() {
+   /**  public void generarReporteDiario() {
         System.out.println("Reporte diario del parqueadero");
         System.out.println("Total recaudado en el día: " + totalRecaudadoDiario + " Pesos\n");
         
@@ -317,7 +358,7 @@ public class Parqueadero {
         
         totalRecaudadoDiario = 0;
     }
-
+*/
     /*
      * Método para generar un reporte mensual
      */
@@ -327,4 +368,22 @@ public class Parqueadero {
 
         totalRecaudadoMensual = 0;
     }
+    public Vehiculo buscarVehiculoRealPorPlaca(String placa) {
+        for (Registro registro : registros) {
+            if (registro.getSalida() == null && registro.getVehiculo().getPlaca().equalsIgnoreCase(placa)) {
+                return registro.getVehiculo();
+            }
+        }
+        return null;
+    }
+    
+ 
+
+ 
+     
 }
+
+
+    
+    
+

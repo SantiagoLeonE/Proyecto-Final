@@ -1,4 +1,5 @@
 package co.edu.uniquindio.poo;
+ 
 
 public abstract class Vehiculo {
     
@@ -8,6 +9,8 @@ public abstract class Vehiculo {
     private final String modelo; 
     private final String placa;
     private final Propietario propietario;
+ 
+
 
     /**
      * Método constructor de la clase abstracta Vehiculo
@@ -50,4 +53,7 @@ public abstract class Vehiculo {
      * @return
      */
     public abstract double getTarifaPorHoraVehiculo();
+
+
+    
 }

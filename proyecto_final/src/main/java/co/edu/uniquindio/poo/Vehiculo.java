@@ -48,6 +48,11 @@ public abstract class Vehiculo {
         return propietario;
     }
 
+    /* */
+    public String toString() {
+        return "Vehiculo [modelo=" + modelo + ", placa=" + placa + ", propietario=" + propietario + "]";
+    }
+
     /**
      * Método abstracto para obtener la tarifa por hora de cada vehículo
      * @return

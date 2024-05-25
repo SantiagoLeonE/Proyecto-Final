@@ -86,9 +86,9 @@ public class Registro {
         return costo;
     }
     @Override
-public String toString() {
-    String salidaStr = (salida != null) ? salida.toString() : "Sin salida registrada";
-    return "Registro { Vehículo: " + vehiculo.getPlaca() + ", Ingreso: " + ingreso + ", Salida: " + salidaStr + " }";
-}
 
+    public String toString() {
+        String salidaStr = (salida != null) ? salida.toString() : "Sin salida registrada";
+        return "Registro { Vehículo: " + vehiculo.getPlaca() + ", Ingreso: " + ingreso + ", Salida: " + salidaStr + " }";
+    }
 }

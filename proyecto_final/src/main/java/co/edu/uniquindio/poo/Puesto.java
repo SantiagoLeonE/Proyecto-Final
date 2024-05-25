@@ -7,7 +7,6 @@ public class Puesto {
     private int i;
     private int j;
     private Vehiculo vehiculo;
-    //private boolean ocupado;
 
     /**
      * Metodo constructor de la clase puesto

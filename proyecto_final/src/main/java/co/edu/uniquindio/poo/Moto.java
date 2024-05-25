@@ -6,7 +6,7 @@ public class Moto extends Vehiculo {
      * Atríbutos de la clase Moto que extiende de la clase Vehículo
      */
     private final double velocidadMaxima; 
-    private static double tarifaClasica, tarifaHibrida;
+    private static double tarifaPorHoraMotoClasica, tarifaPorHoraMotoHibrida;
     private TipoMoto tipoMoto;
 
     /**
@@ -41,33 +41,35 @@ public class Moto extends Vehiculo {
     }
 
     /**
-     * Método set para modificar la tarifa por hora de una moto clásica
-     * @param tarifa
-     */
-    public static void setTarifaClasica(double tarifa) {
-        assert tarifa > 0;
-        tarifaClasica = tarifa;
-    }
-
-    /**
-     * Método set para modificar la tarifa por hora de una moto clásica
-     * @param tarifa
-     */
-    public static void setTarifaHibrida(double tarifa) {
-        assert tarifa > 0;
-        tarifaHibrida = tarifa;
-    }
-
-    /**
      * Método para obtener la tarifa por hora de las motos dependiendo de su tipo
      */
     @Override
     public double getTarifaPorHoraVehiculo() {
         if (tipoMoto == TipoMoto.MOTOCLASICA) {
-            return tarifaClasica;
+            return tarifaPorHoraMotoClasica;
         }
         else {
-            return tarifaHibrida;
+            return tarifaPorHoraMotoHibrida;
         }
     }
+
+    /**
+     * Método set para modificar la tarifa por hora de una moto clásica
+     * @param tarifa
+     */
+    public static void setTarifaPorHoraMotoClasica(double tarifa) {
+        assert tarifa > 0;
+        tarifaPorHoraMotoClasica = tarifa;
+    }
+
+    /**
+     * Método set para modificar la tarifa por hora de una moto clásica
+     * @param tarifa
+     */
+    public static void setTarifaPorHoraMotofaHibrida(double tarifa) {
+        assert tarifa > 0;
+        tarifaPorHoraMotoHibrida = tarifa;
+    }
+
+    
 }

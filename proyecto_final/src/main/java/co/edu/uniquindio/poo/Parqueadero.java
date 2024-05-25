@@ -398,7 +398,7 @@ public class Parqueadero {
      * @param i
      * @param j
      */
-   public void liberarPuesto(int i, int j) {
+    public void liberarPuesto(int i, int j) {
         assert i >= 0 && i < filas;
         assert j >= 0 && j < columnas;
         if(puestos[i][j].estaOcupado()) {
@@ -411,6 +411,22 @@ public class Parqueadero {
             }
             puestos[i][j].desocuparPuesto();
         }   
+    }
+
+    public void registroVehiculoSalida() {
+        System.out.println("Ingrese la placa del vehículo");
+        String placaVehiculo = scanner.nextLine();
+
+        Vehiculo vehiculoEncontrado = buscarVehiculoPorPlaca(placaVehiculo);
+
+        if(vehiculoEncontrado != null) {
+            Registro registro = obtenerRegistro(vehiculoEncontrado);
+            if(registro != null) {
+                System.out.println(registro);
+            }
+        } else {
+            System.out.println("No se encontró vehículo con esa placa.");
+        }
     }
 
     /**

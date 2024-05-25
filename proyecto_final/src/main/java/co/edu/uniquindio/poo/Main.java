@@ -9,14 +9,17 @@ public class Main {
 
     public static void main(String[] args) {
         int opcion = 0;
-        while(opcion != 6) {
+        while(opcion != 9) {
             System.out.println("Menu del parqueadero");
             System.out.println("1. Configurar tarifas por hora");
             System.out.println("2. Ubicar un vehículo");
             System.out.println("3. Liberar un puesto");
             System.out.println("4. Verificar disponibilidad del parqueadero");
             System.out.println("5. Identificar propietario de un vehículo en el parqueadero");
-            System.out.println("6. Salir");
+            System.out.println("6. Obtener el registro de un vehículo");
+            System.out.println("7. Generar reporte diario");
+            System.out.println("8. Generar reporte mensual");
+            System.out.println("9. Salir");
             System.out.print("Ingrese una opción: ");
             opcion = scanner.nextInt();
 
@@ -35,8 +38,17 @@ public class Main {
                     break;   
                 case 5:
                     parqueadero.buscarPropietario();
-                    break;   
+                    break;
                 case 6:
+                    parqueadero.registroVehiculoSalida();
+                    break;
+                case 7:
+                    parqueadero.generarReporteDiario();
+                    break;
+                case 8:
+                    parqueadero.generarReporteMensual();
+                    break;
+                case 9:
                     System.out.println("Saliendo..");
                     break;
                 default:

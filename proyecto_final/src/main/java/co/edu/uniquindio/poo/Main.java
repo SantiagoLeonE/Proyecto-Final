@@ -9,13 +9,14 @@ public class Main {
 
     public static void main(String[] args) {
         int opcion = 0;
-        while(opcion != 4) {
+        while(opcion != 6) {
             System.out.println("Menu del parqueadero");
             System.out.println("1. Configurar tarifas por hora");
             System.out.println("2. Ubicar un vehículo");
             System.out.println("3. Liberar un puesto");
             System.out.println("4. Verificar disponibilidad del parqueadero");
-            System.out.println("5. Salir");
+            System.out.println("5. Identificar propietario de un vehículo en el parqueadero");
+            System.out.println("6. Salir");
             System.out.print("Ingrese una opción: ");
             opcion = scanner.nextInt();
 
@@ -30,9 +31,12 @@ public class Main {
                     parqueadero.salidaVehiculo();
                     break;
                 case 4:
-                    
+                    parqueadero.verificarDisponibilidadParqueadero();
                     break;   
                 case 5:
+                    parqueadero.buscarPropietario();
+                    break;   
+                case 6:
                     System.out.println("Saliendo..");
                     break;
                 default:

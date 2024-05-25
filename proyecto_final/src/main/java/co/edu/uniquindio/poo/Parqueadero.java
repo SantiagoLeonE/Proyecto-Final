@@ -154,14 +154,16 @@ public class Parqueadero {
     public boolean verificarDisponibilidadParqueadero() {
         for(int i=0;i<puestos.length;i++){
             for(int j=0;j<puestos[i].length;j++) {
-                if(!puestos[i][j].estaOcupado()) {/*Si encuentra al menos un puesto que no esta acupado retorna true*/
+                //Si encuentra al menos un puesto desocupado entonces el parqueadero tendrá disponibilidad
+                if(!puestos[i][j].estaOcupado()) {
                     System.out.println("Hay disponibilidad en el parqueadero");
                     return true;
                 }
             }
         }
+        //Sino retornará que el parqueadero esta lleno 
         System.out.println("El parqueadero esta lleno");
-        return false;/*Sino retornara false indicando que no se encuentra disponibilidad de puestos*/
+        return false;
     }
 
     /**
@@ -201,7 +203,7 @@ public class Parqueadero {
                 System.out.println("El puesto ya está ocupado. Intente de nuevo por favor.");
             }
         }
-        while(i < 0 || i >= puestos.length || j < 0 || j >= puestos.length || !verificarDisponibilidadPuesto(i, j)); {
+        while(i < 0 || i >= puestos.length || j < 0 || j >= puestos.length || !verificarDisponibilidadPuesto(i, j)); 
 
         System.out.println("Ingresar el nombre del propietario");
         String nombre = scanner.nextLine();
@@ -264,7 +266,7 @@ public class Parqueadero {
                 System.out.println("Opción inválida.");
                 break;
         }
-        }
+        
     }
         
     public void ubicarVehiculo(int i, int j, Vehiculo vehiculo) {
@@ -286,9 +288,34 @@ public class Parqueadero {
      * @param j
      * @return
      */
+    public void buscarPropietario() {
+        System.out.println("Ingrese la fila en la que se encuentra el vehículo: ");
+        int i = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.println("Ingrese la columna en la que se encuentra el vehículo: ");
+        int j = scanner.nextInt();
+        scanner.nextLine();
+
+        Propietario propietario = identificarPropietario(i, j);
+
+        if(propietario != null){
+            System.out.println(propietario);
+        }
+        else {
+            System.out.println("El puesto esta vacío");
+        }
+    }
+
+    /* */
     public Propietario identificarPropietario(int i, int j) {
         assert i >= 0 && i < filas;
         assert j >= 0 && j < columnas;
+
+        if(i > filas || i < 0 || j > columnas || j < 0) {
+            System.out.println("Los valores de la fila o columna esta fuera de los límites");
+        }
+
         if(puestos[i][j].estaOcupado()) {
             return puestos[i][j].getVehiculo().getPropietario();
         }
@@ -315,17 +342,26 @@ public class Parqueadero {
      * Método para configurar las tarifas por horas de cada vehículo
      */
     public void configurarTarifasPorHora() {
-        System.out.println("Ingresar la tarifa por hora para carros: ");
-        double tarifaCarro = scanner.nextDouble();
-        scanner.nextLine();
+        double tarifaCarro, tarifaClasica, tarifaHibrida;
 
-        System.out.println("Ingresar la tarifa por hora para motos clasicas: ");
-        double tarifaClasica = scanner.nextDouble();
-        scanner.nextLine();
-        
-        System.out.println("Ingresar la tarifa por hora para motos hibridas");
-        double tarifaHibrida = scanner.nextDouble();
-        scanner.nextLine();
+        do {
+            System.out.println("Ingresar la tarifa por hora para carros: ");
+            tarifaCarro = scanner.nextDouble();
+            scanner.nextLine();
+
+            System.out.println("Ingresar la tarifa por hora para motos clasicas: ");
+            tarifaClasica = scanner.nextDouble();
+            scanner.nextLine();
+            
+            System.out.println("Ingresar la tarifa por hora para motos hibridas");
+            tarifaHibrida = scanner.nextDouble();
+            scanner.nextLine();
+
+            if(tarifaCarro < 0 || tarifaClasica < 0 || tarifaHibrida < 0) {
+                System.out.println("Las tarifas no pueden ser negativas");
+            }
+        }
+        while(tarifaCarro < 0 || tarifaClasica < 0 || tarifaHibrida < 0);
 
         System.out.println("Se configuraron las tarifas correctamente");
 

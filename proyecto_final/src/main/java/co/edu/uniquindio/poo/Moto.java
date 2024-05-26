@@ -66,7 +66,7 @@ public class Moto extends Vehiculo {
      * Método set para modificar la tarifa por hora de una moto clásica
      * @param tarifa
      */
-    public static void setTarifaPorHoraMotofaHibrida(double tarifa) {
+    public static void setTarifaPorHoraMotoHibrida(double tarifa) {
         assert tarifa > 0;
         tarifaPorHoraMotoHibrida = tarifa;
     }

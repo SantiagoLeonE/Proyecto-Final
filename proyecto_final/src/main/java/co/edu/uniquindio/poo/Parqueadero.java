@@ -367,7 +367,7 @@ public class Parqueadero {
 
         Carro.setTarifaPorHoraCarro(tarifaCarro);
         Moto.setTarifaPorHoraMotoClasica(tarifaClasica);
-        Moto.setTarifaPorHoraMotofaHibrida(tarifaHibrida);
+        Moto.setTarifaPorHoraMotoHibrida(tarifaHibrida);
     }
      
     /* */

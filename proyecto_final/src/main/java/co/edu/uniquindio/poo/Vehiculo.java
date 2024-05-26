@@ -22,6 +22,8 @@ public abstract class Vehiculo {
         this.modelo = modelo;
         this.placa = placa;
         this.propietario = propietario;
+        assert modelo != null && !modelo.isBlank();
+        assert placa != null && !placa.isBlank();
     }
 
     /**

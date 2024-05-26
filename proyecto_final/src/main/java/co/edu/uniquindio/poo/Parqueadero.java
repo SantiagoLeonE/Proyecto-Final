@@ -3,6 +3,8 @@ package co.edu.uniquindio.poo;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Scanner;
 
 public class Parqueadero {
@@ -15,6 +17,7 @@ public class Parqueadero {
     private Puesto[][] puestos;
     private List <Registro> registros;
     private double totalRecaudadoDiario, totalRecaudadoMensual;
+    private Collection <String> placasRegistradas;
     private static Scanner scanner = new Scanner(System.in);
  
     /**
@@ -31,6 +34,7 @@ public class Parqueadero {
         this.registros = new ArrayList<>();
         this.totalRecaudadoDiario = 0;
         this.totalRecaudadoMensual = 0;
+        placasRegistradas = new HashSet<>();
 
         for(int i = 0; i < filas; i++) {
             for(int j = 0; j < columnas; j++) {
@@ -137,6 +141,15 @@ public class Parqueadero {
         this.totalRecaudadoMensual = totalRecaudadoMensual;
     }
 
+    /**
+     * Método para verificar que una placa no se repita en el parqueadero
+     * @param placa
+     * @return
+     */
+    public boolean verificarPlacaExiste(String placa) {
+        return placasRegistradas.contains(placa);
+    }
+
     /*
      * Método toString para obtener el número de filas y columnas del parqueadero
      */
@@ -224,8 +237,13 @@ public class Parqueadero {
                 System.out.println("Ingresar la placa del carro: ");
                 placa = scanner.nextLine();
 
-                Carro carro = new Carro(modelo, placa, propietario);
-                ubicarVehiculo(i, j, carro, ingreso);
+                if(!verificarPlacaExiste(placa)) {
+                    Carro carro = new Carro(modelo, placa, propietario);
+                    ubicarVehiculo(i, j, carro, ingreso);
+                    placasRegistradas.add(placa);
+                } else {
+                    System.out.println("La placa ya está registrada en el parqueadero");
+                }
                 break;
             case 2: 
                 System.out.println("Ingresar el modelo de la moto: ");
@@ -238,9 +256,14 @@ public class Parqueadero {
                 double velocidadMaxima = scanner.nextDouble();
                 scanner.nextLine();
 
-                TipoMoto tipoMoto1 = TipoMoto.MOTOCLASICA;
-                Moto motoClasica = new Moto(modelo, placa, propietario, velocidadMaxima, tipoMoto1);
-                ubicarVehiculo(i, j, motoClasica, ingreso);
+                if(!verificarPlacaExiste(placa)) {
+                    TipoMoto tipoMoto1 = TipoMoto.MOTOCLASICA;
+                    Moto motoClasica = new Moto(modelo, placa, propietario, velocidadMaxima, tipoMoto1);
+                    ubicarVehiculo(i, j, motoClasica, ingreso);
+                    placasRegistradas.add(placa);
+                } else {
+                    System.out.println("La placa ya está registrada en el parqueadero");
+                }
                 break;
             case 3:
                 System.out.println("Ingresar el modelo de la moto: ");
@@ -253,9 +276,12 @@ public class Parqueadero {
                 velocidadMaxima = scanner.nextDouble();
                 scanner.nextLine();
 
-                TipoMoto tipoMoto2 = TipoMoto.MOTOHIBRIDA;
-                Moto motoHibrida = new Moto(modelo, placa, propietario, velocidadMaxima, tipoMoto2);
-                ubicarVehiculo(i, j, motoHibrida, ingreso);
+                if(!verificarPlacaExiste(placa)) {
+                    TipoMoto tipoMoto2 = TipoMoto.MOTOHIBRIDA;
+                    Moto motoHibrida = new Moto(modelo, placa, propietario, velocidadMaxima, tipoMoto2);
+                    ubicarVehiculo(i, j, motoHibrida, ingreso);
+                    placasRegistradas.add(placa);
+                }
                 break;
             default:
                 System.out.println("Opción inválida.");

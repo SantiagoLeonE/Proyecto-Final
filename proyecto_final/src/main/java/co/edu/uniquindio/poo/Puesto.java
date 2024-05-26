@@ -10,8 +10,8 @@ public class Puesto {
 
     /**
      * Metodo constructor de la clase puesto
-     * @param i  
-     * @param j  
+     * @param i
+     * @param j
      */
     public Puesto(int i, int j) {
         this.i = i;
@@ -20,7 +20,6 @@ public class Puesto {
         assert j >= 0;
         this.vehiculo = null;
     }
-
 
     /**
      * Método get para obtener el valor de la variable i que es la fila en la que se encuentra el puesto
@@ -44,6 +43,14 @@ public class Puesto {
      */
     public Vehiculo getVehiculo() {
         return vehiculo;
+    }
+
+    /*
+     * Método toString para obtener las coordenadas de un puesto 
+     */ 
+    @Override
+    public String toString() {
+        return  "[" + i + ", " + j + "]";
     }
     
     /**
@@ -69,6 +76,3 @@ public class Puesto {
         this.vehiculo = null;
     }
 }
-
-    
-

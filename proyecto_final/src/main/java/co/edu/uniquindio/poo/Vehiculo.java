@@ -1,16 +1,12 @@
 package co.edu.uniquindio.poo;
  
-
 public abstract class Vehiculo {
-    
     /*
      * Atríbutos de la clase vehículo
      */
     private final String modelo; 
     private final String placa;
     private final Propietario propietario;
- 
-
 
     /**
      * Método constructor de la clase abstracta Vehiculo
@@ -48,12 +44,7 @@ public abstract class Vehiculo {
      */
     public Propietario getPropietario() {
         return propietario;
-    }
-
-    /* */
-    public String toString() {
-        return "Vehiculo [modelo=" + modelo + ", placa=" + placa + ", propietario=" + propietario + "]";
-    }
+    }     
 
     /**
      * Método abstracto para obtener la tarifa por hora de cada vehículo
@@ -61,6 +52,9 @@ public abstract class Vehiculo {
      */
     public abstract double getTarifaPorHoraVehiculo();
 
-
-    
+    /**
+     * Método abstracto para obtener el tipo de vehículo
+     * @return
+     */
+    public abstract String getTipo();   
 }

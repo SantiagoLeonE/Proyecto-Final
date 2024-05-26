@@ -48,8 +48,11 @@ public class Moto extends Vehiculo {
         if (tipoMoto == TipoMoto.MOTOCLASICA) {
             return tarifaPorHoraMotoClasica;
         }
-        else {
+        else if(tipoMoto == TipoMoto.MOTOHIBRIDA) {
             return tarifaPorHoraMotoHibrida;
+        }
+        else {
+            return 0;
         }
     }
 
@@ -71,5 +74,11 @@ public class Moto extends Vehiculo {
         tarifaPorHoraMotoHibrida = tarifa;
     }
 
-    
+    /*
+     * Método get para obtener un string con el tipo de vehículo
+     */
+    @Override
+    public String getTipo() {
+        return tipoMoto.toString();
+    }
 }

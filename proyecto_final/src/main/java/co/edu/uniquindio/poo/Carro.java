@@ -33,4 +33,12 @@ public class Carro extends Vehiculo {
         assert tarifa > 0;
         tarifaPorHoraCarro = tarifa;
     }
+
+    /*
+     * Método get para obtener un string con el tipo de vehículo
+     */
+    @Override
+    public String getTipo() {
+        return "Carro";
+    }
 }

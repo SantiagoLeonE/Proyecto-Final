@@ -55,6 +55,7 @@ public class Propietario {
     /*
      * Metodo toString para mostrar el propietario y su identificación de un vehículo
      */
+    @Override
     public String toString() {
         return "Propietario: " + nombre + " - Identificacion: " + identificacion;
     }

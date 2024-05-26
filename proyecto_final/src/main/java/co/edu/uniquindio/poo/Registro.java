@@ -13,12 +13,11 @@ public class Registro {
 
     /**
      * Metodo constructor de la clase registro
-     * @param ingreso
-     * @param salida
      * @param vehiculo
      * @param puesto
+     * @param ingreso
      */
-    public Registro(Vehiculo vehiculo, Puesto puesto) {
+    public Registro(Vehiculo vehiculo, Puesto puesto, LocalDateTime ingreso) {
         this.ingreso = LocalDateTime.now();
         this.vehiculo = vehiculo;
         assert vehiculo != null;
@@ -45,7 +44,6 @@ public class Registro {
     /**
      * Metodo get para obtener el vehiculo de un registro
      * @return
-     * 
      */
     public Vehiculo getVehiculo() {
         return vehiculo;
@@ -73,10 +71,10 @@ public class Registro {
      * vehículo
      * @return
      */
-    public double calcularCosto() {    
+    public double calcularCosto() {   
         double costo = 0;
-        long minutos = java.time.Duration.between(ingreso, salida).toMinutes();
-        if (minutos == 0) {
+        double minutos = java.time.Duration.between(ingreso, salida).toMinutes();
+        if (minutos < 60) {
             costo = vehiculo.getTarifaPorHoraVehiculo();
         }
         else {
@@ -85,10 +83,13 @@ public class Registro {
         }
         return costo;
     }
+    
+    /*
+     * Método toString para mostrar la información de un registro como el tipo de vehiculo, la placa, el modelo,
+     * una fecha y hora de ingreso y salida
+     */
     @Override
-
     public String toString() {
-        String salidaStr = (salida != null) ? salida.toString() : "Sin salida registrada";
-        return "Registro { Vehículo: " + vehiculo.getPlaca() + ", Ingreso: " + ingreso + ", Salida: " + salidaStr + " }";
+        return "Registro [ TipoVehículo: " + vehiculo.getTipo() + ", Placa: " + vehiculo.getPlaca() + ", Modelo: " + vehiculo.getModelo() + ", Ingreso: " + ingreso + ", Salida: " + salida + " ]";
     }
 }

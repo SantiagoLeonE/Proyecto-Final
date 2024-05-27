@@ -202,53 +202,74 @@ public class Parqueadero {
      * Método para configurar las tarifas por horas de cada vehículo
      */
     public void configurarTarifasPorHora() { 
+        // Declaración de las variables para las tarifas
         double tarifaCarro = 0;
         double tarifaClasica = 0;
         double tarifaHibrida = 0;
         String input;
-
+    
+        // Bucle para obtener una tarifa válida para carros
         do {
             System.out.println("Ingresar la tarifa por hora para carros");
+            // Leer la entrada del usuario
             input = scanner.nextLine();
+            // Verificar si la entrada es un número válido
             if(input.matches("\\d+(\\.\\d+)?")) {
                 tarifaCarro = Double.parseDouble(input);
             }    
             else {
+                // Imprimir mensaje de error si la entrada no es válida
                 System.out.println("El valor de la tarifa no es valido.");
             }
         }
+        // Repetir mientras la tarifa sea menor que 1
         while(tarifaCarro < 1);    
-
+    
+        // Bucle para obtener una tarifa válida para motos clásicas
         do {
             System.out.println("Ingresar la tarifa por hora para motos clasicas");
+            // Leer la entrada del usuario
             input = scanner.nextLine();
+            // Verificar si la entrada es un número válido
             if(input.matches("\\d+(\\.\\d+)?")) {
                 tarifaClasica = Double.parseDouble(input);
             }    
             else {
+                // Imprimir mensaje de error si la entrada no es válida
                 System.out.println("El valor de la tarifa no es valido.");
             }
         }
+        // Repetir mientras la tarifa sea menor que 1
         while(tarifaClasica < 1);
-
+    
+        // Bucle para obtener una tarifa válida para motos híbridas
         do {
             System.out.println("Ingresar la tarifa por hora para motos hibridas");
+            // Leer la entrada del usuario
             input = scanner.nextLine();
+            // Verificar si la entrada es un número válido
             if(input.matches("\\d+(\\.\\d+)?")) {
                 tarifaHibrida = Double.parseDouble(input);
             }    
             else {
+                // Imprimir mensaje de error si la entrada no es válida
                 System.out.println("El valor de la tarifa no es valido.");
             }
         }
+        // Repetir mientras la tarifa sea menor que 1
         while(tarifaHibrida < 1);
         
+        // Mensaje de confirmación de que las tarifas fueron configuradas correctamente
         System.out.println("Se configuraron las tarifas correctamente");   
         
+        // Configurar la tarifa por hora para carros en la clase Carro
         Carro.setTarifaPorHoraCarro(tarifaCarro);
+        // Configurar la tarifa por hora para motos clásicas en la clase Moto
         Moto.setTarifaPorHoraMotoClasica(tarifaClasica);
+        // Configurar la tarifa por hora para motos híbridas en la clase Moto
         Moto.setTarifaPorHoraMotoHibrida(tarifaHibrida);
     }
+    
 
     /**
      * Metodo para verificar la disponibilidad del parqueadero
@@ -276,10 +297,14 @@ public class Parqueadero {
      * @return
      */
     public boolean verificarDisponibilidadPuesto(int i, int j) {
+        // Asegura que el índice i esté dentro del rango válido de filas
         assert i >= 0 && i < filas;
+        // Asegura que el índice j esté dentro del rango válido de columnas
         assert j >= 0 && j < columnas;
+        // Devuelve verdadero si el puesto en la posición [i][j] no está ocupado, falso si está ocupado
         return !puestos[i][j].estaOcupado();
     }
+    
 
     /**
      * Método para asignar un puesto desocupado del parqueadero a un vehículo 
@@ -288,21 +313,40 @@ public class Parqueadero {
      * @param vehiculo
      * @param ingreso
      */
-    public void asignarPuestoVehiculo(int i, int j, Vehiculo vehiculo, LocalDateTime ingreso) {
+     
+     public void asignarPuestoVehiculo(int i, int j, Vehiculo vehiculo, LocalDateTime ingreso) {
+        // Aserción para verificar que el índice de fila está dentro de los límites del parqueadero.
         assert i >= 0 && i < filas : "La fila está fuera de los límites.";
+    
+        // Aserción para verificar que el índice de columna está dentro de los límites del parqueadero.
         assert j >= 0 && j < columnas : "La columna está fuera de los límites.";
+    
+        // Verifica si el puesto en la posición (i, j) está disponible.
         if (verificarDisponibilidadPuesto(i, j)) {
+            // Ocupa el puesto con el vehículo proporcionado.
             puestos[i][j].ocuparPuesto(vehiculo);
+    
+            // Crea un nuevo registro de ingreso del vehículo en el parqueadero.
             Registro registro = new Registro(vehiculo, puestos[i][j], ingreso);
+    
+            // Añade el nuevo registro a la lista de registros diarios.
             registrosDiarios.add(registro);
+    
+            // Añade el nuevo registro a la lista de registros históricos.
             registrosHistoricos.add(registro);
+    
+            // Añade el vehículo a la lista de vehículos presentes en el parqueadero.
             vehiculos.add(vehiculo);
+    
+            // Imprime un mensaje indicando que el vehículo se ha registrado exitosamente.
             System.out.println("Vehículo registrado exitosamente.");
         } 
         else {
+            // Imprime un mensaje indicando que el puesto ya está ocupado.
             System.out.println("El puesto ya está ocupado.");
         }
     }
+    
 
     /*
      * Método para registrar el ingreso de un vehículo al parqueadero
@@ -501,66 +545,70 @@ public class Parqueadero {
         }
     }
 
-    /*
-     * Método para obtener el propietario de un vehículo en un puesto especifico
-     */
-    public void obtenerPropietarioVehiculo() {
-        int i = -1;
-        int j = -1;
-        String input;
-        do {
-            System.out.println("Ingrese la fila en la que se encuentra el vehículo: ");
-            input = scanner.nextLine();
-            if(input.matches("-?\\d+")) {
-                i = Integer.parseInt(input);
-                if(i < 0 || i > puestos.length - 1) {
-                    System.out.println("El número de fila esta fuera de los limites");
-                }
+  
+    /**
+ * Método para obtener el propietario del vehículo en un puesto específico.
+ */
+public void obtenerPropietarioVehiculo() {
+    int i = -1; // Variable para almacenar el índice de la fila ingresada por el usuario.
+    int j = -1; // Variable para almacenar el índice de la columna ingresada por el usuario.
+    String input; // Variable para almacenar la entrada del usuario.
+
+    do {
+        System.out.println("Ingrese la fila en la que se encuentra el vehículo: "); // Solicitar al usuario que ingrese la fila.
+        input = scanner.nextLine(); // Leer la entrada del usuario.
+
+        if(input.matches("-?\\d+")) { // Verificar si la entrada es un número entero.
+            i = Integer.parseInt(input); // Convertir la entrada a un entero y asignarlo a la variable i.
+
+            if(i < 0 || i > puestos.length - 1) { // Verificar si el valor de i está dentro de los límites de las filas.
+                System.out.println("El número de fila está fuera de los límites"); // Imprimir un mensaje de error.
             }
-            else {
-                System.out.println("El número de fila no es válido");
-            }   
-        }
-        while(i < 0 || i > puestos.length - 1);
+        } else {
+            System.out.println("El número de fila no es válido"); // Imprimir un mensaje de error si la entrada no es un número.
+        }   
+    } while(i < 0 || i > puestos.length - 1); // Repetir el bucle hasta que se ingrese un valor válido para i.
 
-        do {
-            System.out.println("Ingrese la columna en la que se encuentra el vehículo: ");
-            input = scanner.nextLine();
-            if(input.matches("-?\\d+")) {
-                j = Integer.parseInt(input);
-                if(j < 0 || j > puestos.length - 1) {
-                    System.out.println("El número de columna esta fuera de los limites");
-                }
+    do {
+        System.out.println("Ingrese la columna en la que se encuentra el vehículo: "); // Solicitar al usuario que ingrese la columna.
+        input = scanner.nextLine(); // Leer la entrada del usuario.
+
+        if(input.matches("-?\\d+")) { // Verificar si la entrada es un número entero.
+            j = Integer.parseInt(input); // Convertir la entrada a un entero y asignarlo a la variable j.
+
+            if(j < 0 || j > puestos.length - 1) { // Verificar si el valor de j está dentro de los límites de las columnas.
+                System.out.println("El número de columna está fuera de los límites"); // Imprimir un mensaje de error.
             }
-            else {
-                System.out.println("El número de columna no es válido");
-            }   
-        }
-        while(j < 0 || j > puestos.length - 1);
+        } else {
+            System.out.println("El número de columna no es válido"); // Imprimir un mensaje de error si la entrada no es un número.
+        }   
+    } while(j < 0 || j > puestos.length - 1); // Repetir el bucle hasta que se ingrese un valor válido para j.
 
-        Propietario propietario = buscarPropietarioVehiculo(i, j);
+    // Llamar al método buscarPropietarioVehiculo para obtener el propietario del vehículo en el puesto especificado.
+    Propietario propietario = buscarPropietarioVehiculo(i, j);
 
-        if(propietario != null){
-            System.out.println(propietario);
-        }
-        else {
-            System.out.println("El puesto esta vacío");
-        }
+    // Verificar si se encontró un propietario para el vehículo en el puesto especificado.
+    if(propietario != null){
+        System.out.println(propietario); // Imprimir el propietario del vehículo.
+    } else {
+        System.out.println("El puesto está vacío"); // Imprimir un mensaje indicando que el puesto está vacío.
     }
+}
 
     /**
-     * Método para obtener el registro de un vehículo que no ha salido del parqueadero
-     * @param vehiculo
-     * @return
-     */
-    public Registro obtenerRegistroVehiculoSinSalir(Vehiculo vehiculo) {
-        for (Registro registro : registrosDiarios) {
-            if (registro.getVehiculo().equals(vehiculo)) {
-                return registro;
-            }
+ * Método para obtener el registro de un vehículo que aún no ha salido del parqueadero.
+ * @param vehiculo El vehículo del cual se desea obtener el registro.
+ * @return El registro del vehículo si se encuentra en la lista de registros diarios, de lo contrario, devuelve null.
+ */
+public Registro obtenerRegistroVehiculoSinSalir(Vehiculo vehiculo) {
+    for (Registro registro : registrosDiarios) { // Iterar sobre la lista de registros diarios.
+        if (registro.getVehiculo().equals(vehiculo)) { // Verificar si el vehículo del registro coincide con el vehículo proporcionado.
+            return registro; // Devolver el registro si se encuentra.
         }
-        return null;
     }
+    return null; // Devolver null si no se encuentra ningún registro para el vehículo.
+}
+
 
     /**
      * Método para obtener el registro de un vehículo que ha salido del parqueadero
@@ -576,48 +624,53 @@ public class Parqueadero {
         return null;
     }
 
-    /**
-     * Método para buscar un vehículo por su placa
-     * @param placa
-     * @return
-     */
-    public Vehiculo buscarVehiculoPorPlaca(String placa) {
-        for (Registro registro : registrosHistoricos) {
-            if (registro.getVehiculo().getPlaca().equalsIgnoreCase(placa)) {
-                return registro.getVehiculo();
-            }
+     /**
+ * Método para buscar un vehículo por su placa.
+ * @param placa La placa del vehículo que se desea buscar.
+ * @return El vehículo cuya placa coincide con la proporcionada, si se encuentra en los registros históricos.
+ *         De lo contrario, devuelve null.
+ */
+public Vehiculo buscarVehiculoPorPlaca(String placa) {
+    for (Registro registro : registrosHistoricos) { // Iterar sobre la lista de registros históricos.
+        if (registro.getVehiculo().getPlaca().equalsIgnoreCase(placa)) { // Verificar si la placa del vehículo en el registro coincide con la placa proporcionada, ignorando mayúsculas y minúsculas.
+            return registro.getVehiculo(); // Devolver el vehículo si se encuentra.
         }
-        return null;
     }
+    return null; // Devolver null si no se encuentra ningún vehículo con la placa proporcionada.
+}
+
 
     /*
      * Método para obtener el registro de un vehículo
      */
-    public void obtenerRegistroVehiculo() {
-        if(!placasRegistradas.isEmpty()) {
-            System.out.println("Ingrese la placa del vehículo");
-            String placa = scanner.nextLine();
+    /*
+ * Método para obtener el registro de un vehículo.
+ */
+public void obtenerRegistroVehiculo() {
+    if (!placasRegistradas.isEmpty()) { // Verificar si hay placas registradas en el parqueadero.
+        System.out.println("Ingrese la placa del vehículo"); // Solicitar al usuario que ingrese la placa del vehículo.
+        String placa = scanner.nextLine(); // Leer la placa ingresada por el usuario.
 
-            while(!placasRegistradas.contains(placa)) {
-                System.out.println("La placa ingresada no se encuentra registrada en el parqueadero, por favor ingrese  una placa válida");
-                placa = scanner.nextLine();
-            }
-            Vehiculo vehiculo = buscarVehiculoPorPlaca(placa);
-
-            if(vehiculo != null) {
-                Registro registro = obtenerRegistroVehiculoSalido(vehiculo);
-                if(registro != null) {
-                    System.out.println(registro);
-                }
-            }    
-            else {
-                System.out.println("No se encontró vehículo con esa placa.");
-            }
+        while (!placasRegistradas.contains(placa)) { // Verificar si la placa ingresada está registrada en el parqueadero.
+            System.out.println("La placa ingresada no se encuentra registrada en el parqueadero, por favor ingrese una placa válida"); // Notificar al usuario que la placa no está registrada y solicitar una placa válida.
+            placa = scanner.nextLine(); // Leer la nueva placa ingresada por el usuario.
         }
-        else {
-            System.out.println("No se han registrado vehículos en el parqueadero");
-        }        
+        
+        Vehiculo vehiculo = buscarVehiculoPorPlaca(placa); // Buscar el vehículo correspondiente a la placa ingresada.
+
+        if (vehiculo != null) { // Verificar si se encontró un vehículo con la placa ingresada.
+            Registro registro = obtenerRegistroVehiculoSalido(vehiculo); // Obtener el registro del vehículo que ha salido del parqueadero.
+            if (registro != null) { // Verificar si se encontró el registro del vehículo.
+                System.out.println(registro); // Mostrar el registro del vehículo.
+            }
+        } else {
+            System.out.println("No se encontró vehículo con esa placa."); // Notificar al usuario que no se encontró ningún vehículo con la placa ingresada.
+        }
+    } else {
+        System.out.println("No se han registrado vehículos en el parqueadero"); // Notificar al usuario que no se han registrado vehículos en el parqueadero.
     }
+}
+
 
     /**
      * Método para desocupar un puesto en el parqueadero y actualizar el recaudado diario y mensual
@@ -694,42 +747,50 @@ public class Parqueadero {
         totalRecaudadoMensual += costo;
     }
 
-    /*
-     * Método para generar un reporte diario y al final reiniciar el total del recaudo para el día siguiente
-     */
-    public void generarReporteDiario() {
-        System.out.println("Reporte diario del parqueadero");
-        System.out.print("Total recaudado en el día: " + totalRecaudadoDiario + " Pesos\n");
-        
-        double totalCarros = 0;
-        double totalMotosClasicas = 0;
-        double totalMotosHibridas = 0;
+     /*
+ * Método para generar un reporte diario y al final reiniciar el total del recaudo para el día siguiente.
+ */
+public void generarReporteDiario() {
+    System.out.println("Reporte diario del parqueadero"); // Imprimir encabezado del reporte.
 
-        for (Registro registro : registrosDiarios) {
-            if (registro.getSalida() != null) {
-                if (registro.getVehiculo() instanceof Carro) {
-                    totalCarros += registro.calcularCosto();
-                } 
-                else if (registro.getVehiculo() instanceof Moto) {
-                    Moto moto = (Moto) registro.getVehiculo();
-                    if (moto.getTipoMoto() == TipoMoto.MOTOCLASICA) {
-                        totalMotosClasicas += registro.calcularCosto();
-                    }
-                    else if(moto.getTipoMoto() == TipoMoto.MOTOHIBRIDA) {
-                        totalMotosHibridas += registro.calcularCosto();
-                    }
+    // Imprimir el total recaudado en el día.
+    System.out.print("Total recaudado en el día: " + totalRecaudadoDiario + " Pesos\n");
+    
+    // Inicializar variables para almacenar el total de recaudo por tipo de vehículo.
+    double totalCarros = 0;
+    double totalMotosClasicas = 0;
+    double totalMotosHibridas = 0;
+
+    // Recorrer todos los registros diarios para calcular el recaudo por tipo de vehículo.
+    for (Registro registro : registrosDiarios) {
+        // Verificar si el vehículo ha salido del parqueadero.
+        if (registro.getSalida() != null) {
+            // Verificar el tipo de vehículo.
+            if (registro.getVehiculo() instanceof Carro) {
+                totalCarros += registro.calcularCosto(); // Incrementar el total de recaudo de carros.
+            } 
+            else if (registro.getVehiculo() instanceof Moto) {
+                Moto moto = (Moto) registro.getVehiculo();
+                // Verificar el tipo de moto.
+                if (moto.getTipoMoto() == TipoMoto.MOTOCLASICA) {
+                    totalMotosClasicas += registro.calcularCosto(); // Incrementar el total de recaudo de motos clásicas.
+                }
+                else if(moto.getTipoMoto() == TipoMoto.MOTOHIBRIDA) {
+                    totalMotosHibridas += registro.calcularCosto(); // Incrementar el total de recaudo de motos híbridas.
                 }
             }
         }
-
-        System.out.println("Carros: " + totalCarros + " Pesos");
-        System.out.println("Motos Clásicas: " + totalMotosClasicas + " Pesos");
-        System.out.println("Motos Híbridas: " + totalMotosHibridas + " Pesos");    
-
-        totalRecaudadoDiario = 0;
-        registrosDiarios.clear();
     }
-        
+
+    // Imprimir el total de recaudo por tipo de vehículo.
+    System.out.println("Carros: " + totalCarros + " Pesos");
+    System.out.println("Motos Clásicas: " + totalMotosClasicas + " Pesos");
+    System.out.println("Motos Híbridas: " + totalMotosHibridas + " Pesos");    
+
+    totalRecaudadoDiario = 0; // Reiniciar el total recaudado para el día siguiente.
+    registrosDiarios.clear(); // Limpiar la lista de registros diarios.
+}
+
     /*
      * Método para generar un reporte mensual y reiniciarlo a fin de mes para el próximo mes
      */

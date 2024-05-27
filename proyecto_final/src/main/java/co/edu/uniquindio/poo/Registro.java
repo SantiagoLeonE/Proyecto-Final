@@ -90,6 +90,12 @@ public class Registro {
      */
     @Override
     public String toString() {
-        return "Registro [ TipoVehículo: " + vehiculo.getTipo() + ", Placa: " + vehiculo.getPlaca() + ", Modelo: " + vehiculo.getModelo() + ", Ingreso: " + ingreso + ", Salida: " + salida + " ]";
+        if(getVehiculo() instanceof Carro) {
+            return "Registro [ TipoVehículo: " + vehiculo.getTipo() + ", Placa: " + vehiculo.getPlaca() + ", Modelo: " + vehiculo.getModelo() + ", Ingreso: " + ingreso + ", Salida: " + salida + " ]";
+        }
+        else {
+            Moto moto = (Moto) vehiculo;
+            return "Registro [ TipoVehículo: " + vehiculo.getTipo() + ", Placa: " + vehiculo.getPlaca() + ", Modelo: " + vehiculo.getModelo() + ", Velocidad Máxima: " +  moto.getVelocidadMaxima() + ", Ingreso: " + ingreso + ", Salida: " + salida + " ]";
+        }
     }
 }

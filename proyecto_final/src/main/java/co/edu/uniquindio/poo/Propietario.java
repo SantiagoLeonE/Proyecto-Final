@@ -1,5 +1,8 @@
 package co.edu.uniquindio.poo;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 public class Propietario {
     
     /*
@@ -7,6 +10,7 @@ public class Propietario {
      */
     private String nombre;
     private String identificacion;
+    private Collection <Vehiculo> vehiculos;
 
     /**
      * Metodo constructor de la clase propietario
@@ -16,6 +20,7 @@ public class Propietario {
     public Propietario(String nombre, String identificacion) {
         this.nombre = nombre;
         this.identificacion = identificacion;
+        this.vehiculos = new LinkedList<>();
         assert nombre != null && !nombre.isBlank();
         assert identificacion != null && !identificacion.isBlank();
     }
@@ -34,6 +39,14 @@ public class Propietario {
      */
     public String getIdentificacion() {
         return identificacion;
+    }
+
+    /**
+     * Método get para obtener los vehiculos de un propietario
+     * @return
+     */
+    public Collection<Vehiculo> getVehiculos() {
+        return vehiculos;
     }
 
     /**
@@ -58,5 +71,12 @@ public class Propietario {
     @Override
     public String toString() {
         return "Propietario: " + nombre + " - Identificacion: " + identificacion;
+    }
+
+    /*
+     * Método para agregar un vehículo a un propietario
+     */
+    public void agregarVehiculo(Vehiculo vehiculo) {
+        this.vehiculos.add(vehiculo);
     }
 }

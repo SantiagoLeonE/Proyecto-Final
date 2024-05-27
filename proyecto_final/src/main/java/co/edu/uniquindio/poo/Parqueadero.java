@@ -1,11 +1,13 @@
 package co.edu.uniquindio.poo;
 
+import java.util.Collection;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.LinkedList;
 import java.util.HashSet;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class Parqueadero {
 
@@ -14,10 +16,13 @@ public class Parqueadero {
      */
     private int filas;
     private int columnas;
+    private Collection <Vehiculo> vehiculos;
     private Puesto[][] puestos;
-    private List <Registro> registros;
+    private List <Registro> registrosDiarios;
+    private List <Registro> registrosHistoricos;
     private double totalRecaudadoDiario, totalRecaudadoMensual;
     private Collection <String> placasRegistradas;
+    private Collection <String> identificacionesPropietarios;
     private static Scanner scanner = new Scanner(System.in);
  
     /**
@@ -30,11 +35,17 @@ public class Parqueadero {
         assert filas > 0;
         this.columnas = columnas;
         assert columnas > 0;
+        this.vehiculos = new LinkedList<>();
         this.puestos = new Puesto[filas][columnas];
-        this.registros = new ArrayList<>();
+        assert puestos != null;
+        this.registrosDiarios = new ArrayList<>();
+        assert registrosDiarios != null;
+        this.registrosHistoricos = new ArrayList<>();
+        assert registrosHistoricos != null;
         this.totalRecaudadoDiario = 0;
         this.totalRecaudadoMensual = 0;
-        placasRegistradas = new HashSet<>();
+        this.placasRegistradas = new HashSet<>();
+        this.identificacionesPropietarios = new HashSet<>();
 
         for(int i = 0; i < filas; i++) {
             for(int j = 0; j < columnas; j++) {
@@ -68,11 +79,19 @@ public class Parqueadero {
     }
 
     /**
-     * Método get para obtener la colección de registros
+     * Método get para obtener la colección de registros diarios
      * @return
      */
-    public List<Registro> getRegistros() {
-        return registros;
+    public List<Registro> getRegistrosDiarios() {
+        return registrosDiarios;
+    }
+
+    /**
+     * Método get para obtener la colección de registros históricos
+     * @return
+     */
+    public List<Registro> getRegistrosHistoricos() {
+        return registrosHistoricos;
     }
 
     /**
@@ -96,6 +115,7 @@ public class Parqueadero {
      * @param filas
      */
     public void setFilas(int filas) {
+        assert filas > 0;
         this.filas = filas;
     }
 
@@ -104,6 +124,7 @@ public class Parqueadero {
      * @param columnas
      */
     public void setColumnas(int columnas) {
+        assert columnas > 0;
         this.columnas = columnas;
     }
 
@@ -117,12 +138,21 @@ public class Parqueadero {
     }
 
     /**
-     * Método set para modificar los registros que hay en el parqueadero
+     * Método set para modificar los registros diarios del parqueadero
      * @param registros
      */
-    public void setRegistros(List<Registro> registros) {
-        assert registros != null;
-        this.registros = registros;
+    public void setRegistrosDiarios(List<Registro> registrosDiarios) {
+        assert registrosDiarios != null;
+        this.registrosDiarios = registrosDiarios;
+    }
+
+    /**
+     * Método set para modificar los registros historicos del parqueadero
+     * @param registros
+     */
+    public void setRegistrosHistoricos(List<Registro> registrosHistoricos) {
+        assert registrosHistoricos != null;
+        this.registrosHistoricos = registrosHistoricos;
     }
 
     /**
@@ -130,6 +160,7 @@ public class Parqueadero {
      * @param totalRecaudadoDiario
      */
     public void setTotalRecaudadoDiario(double totalRecaudadoDiario) {
+        assert totalRecaudadoDiario > 0;
         this.totalRecaudadoDiario = totalRecaudadoDiario;
     }
 
@@ -138,7 +169,15 @@ public class Parqueadero {
      * @param totalRecaudadoMensual
      */
     public void setTotalRecaudadoMensual(double totalRecaudadoMensual) {
+        assert totalRecaudadoMensual > 0;
         this.totalRecaudadoMensual = totalRecaudadoMensual;
+    }
+
+    /*
+     * Método toString para obtener el número de filas y columnas del parqueadero
+     */
+    public String toString() {
+        return "Número de filas: " + filas + " \nNúmero de columnas: " + columnas;
     }
 
     /**
@@ -150,11 +189,65 @@ public class Parqueadero {
         return placasRegistradas.contains(placa);
     }
 
-    /*
-     * Método toString para obtener el número de filas y columnas del parqueadero
+    /**
+     * Método para verificar que una identificación no se repita
+     * @param identificacion
+     * @return
      */
-    public String toString() {
-        return "Número de filas: " + filas + " \nNúmero de columnas: " + columnas;
+    public boolean verificarIdExiste(String identificacion) {
+        return identificacionesPropietarios.contains(identificacion);
+    }
+
+    /*
+     * Método para configurar las tarifas por horas de cada vehículo
+     */
+    public void configurarTarifasPorHora() { 
+        double tarifaCarro = 0;
+        double tarifaClasica = 0;
+        double tarifaHibrida = 0;
+        String input;
+
+        do {
+            System.out.println("Ingresar la tarifa por hora para carros");
+            input = scanner.nextLine();
+            if(input.matches("\\d+(\\.\\d+)?")) {
+                tarifaCarro = Double.parseDouble(input);
+            }    
+            else {
+                System.out.println("El valor de la tarifa no es valido.");
+            }
+        }
+        while(tarifaCarro < 1);    
+
+        do {
+            System.out.println("Ingresar la tarifa por hora para motos clasicas");
+            input = scanner.nextLine();
+            if(input.matches("\\d+(\\.\\d+)?")) {
+                tarifaClasica = Double.parseDouble(input);
+            }    
+            else {
+                System.out.println("El valor de la tarifa no es valido.");
+            }
+        }
+        while(tarifaClasica < 1);
+
+        do {
+            System.out.println("Ingresar la tarifa por hora para motos hibridas");
+            input = scanner.nextLine();
+            if(input.matches("\\d+(\\.\\d+)?")) {
+                tarifaHibrida = Double.parseDouble(input);
+            }    
+            else {
+                System.out.println("El valor de la tarifa no es valido.");
+            }
+        }
+        while(tarifaHibrida < 1);
+        
+        System.out.println("Se configuraron las tarifas correctamente");   
+        
+        Carro.setTarifaPorHoraCarro(tarifaCarro);
+        Moto.setTarifaPorHoraMotoClasica(tarifaClasica);
+        Moto.setTarifaPorHoraMotoHibrida(tarifaHibrida);
     }
 
     /**
@@ -188,35 +281,101 @@ public class Parqueadero {
         return !puestos[i][j].estaOcupado();
     }
 
-    /*
-     * Método para ingresar un vehículo en un puesto especifico del parqueadero
+    /**
+     * Método para asignar un puesto desocupado del parqueadero a un vehículo 
+     * @param i
+     * @param j
+     * @param vehiculo
+     * @param ingreso
      */
-    public void ingresoVehiculo() {
+    public void asignarPuestoVehiculo(int i, int j, Vehiculo vehiculo, LocalDateTime ingreso) {
+        assert i >= 0 && i < filas : "La fila está fuera de los límites.";
+        assert j >= 0 && j < columnas : "La columna está fuera de los límites.";
+        if (verificarDisponibilidadPuesto(i, j)) {
+            puestos[i][j].ocuparPuesto(vehiculo);
+            Registro registro = new Registro(vehiculo, puestos[i][j], ingreso);
+            registrosDiarios.add(registro);
+            registrosHistoricos.add(registro);
+            vehiculos.add(vehiculo);
+            System.out.println("Vehículo registrado exitosamente.");
+        } 
+        else {
+            System.out.println("El puesto ya está ocupado.");
+        }
+    }
+
+    /*
+     * Método para registrar el ingreso de un vehículo al parqueadero
+     */
+    public void registrarIngresoVehiculo() {
         int i, j;
+        String input;
 
-        do{
-            System.out.println("Ingresar el número de la fila: ");
-            i = scanner.nextInt();
-            scanner.nextLine();
+        do {
+            i = -1;
+            j = -1;
+            do {
+                System.out.println("Ingresar el número de la fila");
+                input = scanner.nextLine();
+                if(input.matches("-?\\d+")) {
+                    i = Integer.parseInt(input);
+                    if(i < 0 || i > puestos.length - 1) {
+                        System.out.println("El número de la fila esta fuera de los límites.");
+                    }
+                }
+                else {
+                    System.out.println("El número de fila no es valido.");
+                }
+                
+            }while(i < 0 || i > puestos.length - 1);
 
-            System.out.println("Ingresar el número de la columna: ");
-            j = scanner.nextInt();
-            scanner.nextLine();
-
-            if(i < 0 || i >= puestos.length || j < 0 || j >= puestos.length) {
-                System.out.println("Los valores de la fila o columna estan fuera de los limites");
+            do {
+                System.out.println("Ingresar el número de la columna");
+                input = scanner.nextLine();
+                if(input.matches("-?\\d+")) {
+                    j = Integer.parseInt(input);
+                    if(j < 0 || j > puestos.length - 1) {
+                        System.out.println("El número de la columna esta fuera de los límites.");
+                    }
+                }
+                else {
+                    System.out.println("El número de columna no es valido.");
+                }
+                
             }
-            else if(!verificarDisponibilidadPuesto(i, j)) {
+            while(j < 0 || j > puestos.length - 1);
+
+            if(!verificarDisponibilidadPuesto(i, j)) {
                 System.out.println("El puesto ya está ocupado. Intente de nuevo por favor.");
             }
+        }   
+        while(!verificarDisponibilidadPuesto(i, j)); 
+
+        String nombre;
+        do {
+            System.out.println("Ingresar el nombre del propietario");
+            nombre = scanner.nextLine();
+            if(nombre.isBlank()) {
+                System.out.println("El nombre no puede estar vacío");
+            }
+            else if(!Pattern.matches("[a-zA-z ]+", nombre)) {
+                System.out.println("El nombre no puede contener números ni caracteres especiales");
+            }
         }
-        while(i < 0 || i >= puestos.length || j < 0 || j >= puestos.length || !verificarDisponibilidadPuesto(i, j)); 
+        while(nombre.isBlank() || !Pattern.matches("[a-zA-z ]+", nombre));
 
-        System.out.println("Ingresar el nombre del propietario");
-        String nombre = scanner.nextLine();
-
-        System.out.println("Ingresar la identificación del propietario: ");
-        String identificacion = scanner.nextLine();
+        String identificacion;
+        do {
+            System.out.println("Ingresar la identificación del propietario");
+            identificacion = scanner.nextLine();
+            if(identificacion.isBlank()) {
+                System.out.println("La identificación no puede estar vacía");
+            }
+            else if(verificarIdExiste(identificacion)) {
+                System.out.println("La identificación ya existe. Por favor ingresar una identificación valida");
+            }
+        }
+        while(identificacion.isBlank() || verificarIdExiste(identificacion));
 
         Propietario propietario = new Propietario(nombre, identificacion);
         LocalDateTime ingreso = LocalDateTime.now();
@@ -226,119 +385,107 @@ public class Parqueadero {
         int tipo = scanner.nextInt();
         scanner.nextLine();
 
-        String modelo;
-        String placa;
+        while(tipo != 1 && tipo != 2 && tipo != 3) {
+            System.out.println("El tipo de vehículo seleccionado no es válido. Ingresar nuevamente el tipo de vehículo");
+            System.out.println("Tipo de vehiculos: 1. Carro   2. Moto Clásica    3. Moto Híbrida");
+            tipo = scanner.nextInt();
+            scanner.nextLine();
+        }
 
+        String modelo;
+        do {
+            System.out.println("Ingresar el modelo del vehiculo: ");
+            modelo = scanner.nextLine();
+            if(modelo.isBlank()) {
+                System.out.println("El modelo no puede estar vacío");
+            }
+            else if(!Pattern.matches("\\d{4}", modelo)) {
+                System.out.println("El modelo debe ser un número de 4 dígitos");
+            }
+        }
+        while(modelo.isBlank() || !Pattern.matches("\\d{4}", modelo));
+
+        String placa;
+        do {
+            System.out.println("Ingresar la placa del vehiculo: ");
+            placa = scanner.nextLine();
+            if(placa.isBlank()) {
+                System.out.println("La placa no puede estar vacía");
+            }
+            else if(verificarPlacaExiste(placa)) {
+                System.out.println("La placa ya existe. Por favor ingresar una placa valida");
+            }
+        }
+        while(placa.isBlank() || verificarPlacaExiste(placa));
+
+        int velocidadMaxima = -1;
         switch (tipo) {
             case 1:
-                System.out.println("Ingresar el modelo del carro: ");
-                modelo = scanner.nextLine();
-            
-                System.out.println("Ingresar la placa del carro: ");
-                placa = scanner.nextLine();
-
                 if(!verificarPlacaExiste(placa)) {
                     Carro carro = new Carro(modelo, placa, propietario);
-                    ubicarVehiculo(i, j, carro, ingreso);
+                    asignarPuestoVehiculo(i, j, carro, ingreso);
                     placasRegistradas.add(placa);
-                } else {
-                    System.out.println("La placa ya está registrada en el parqueadero");
+                    identificacionesPropietarios.add(identificacion);                    
                 }
                 break;
-            case 2: 
-                System.out.println("Ingresar el modelo de la moto: ");
-                modelo = scanner.nextLine();
-            
-                System.out.println("Ingresar la placa de la moto: ");
-                placa = scanner.nextLine();
+            case 2:
+                do {
+                    System.out.println("Ingresar la velocidad máxima de la moto");
+                    input = scanner.nextLine();
+                    if(input.matches("-?\\d+")) {
+                        velocidadMaxima = Integer.parseInt(input);
+                        if(velocidadMaxima < 0) {
+                            System.out.println("La velocidad máxima no puede ser negativa");
+                        }
+                    }
+                    else {
+                        System.out.println("La velocidad máxima no es valida");
+                    }        
+                }
+                while(velocidadMaxima < 0);
 
-                System.out.println("Ingresar la velocidad máxima de la moto: ");
-                double velocidadMaxima = scanner.nextDouble();
-                scanner.nextLine();
-
-                if(!verificarPlacaExiste(placa)) {
+                if(!verificarPlacaExiste(placa)) { 
                     TipoMoto tipoMoto1 = TipoMoto.MOTOCLASICA;
                     Moto motoClasica = new Moto(modelo, placa, propietario, velocidadMaxima, tipoMoto1);
-                    ubicarVehiculo(i, j, motoClasica, ingreso);
+                    asignarPuestoVehiculo(i, j, motoClasica, ingreso);
                     placasRegistradas.add(placa);
-                } else {
-                    System.out.println("La placa ya está registrada en el parqueadero");
+                    identificacionesPropietarios.add(identificacion); 
                 }
-                break;
+                break;                
             case 3:
-                System.out.println("Ingresar el modelo de la moto: ");
-                modelo = scanner.nextLine();
-        
-                System.out.println("Ingresar la placa de la moto: ");
-                placa = scanner.nextLine();
-
-                System.out.println("Ingresar la velocidad máxima de la moto: ");
-                velocidadMaxima = scanner.nextDouble();
-                scanner.nextLine();
+                do {
+                    System.out.println("Ingresar la velocidad máxima de la moto");
+                    input = scanner.nextLine();
+                    if(input.matches("-?\\d+")) {
+                        velocidadMaxima = Integer.parseInt(input);
+                        if(velocidadMaxima < 0) {
+                            System.out.println("La velocidad máxima no puede ser negativa");
+                        }
+                    }
+                    else {
+                        System.out.println("La velocidad máxima no es valida");
+                    }
+                }
+                while(velocidadMaxima < 0);
 
                 if(!verificarPlacaExiste(placa)) {
                     TipoMoto tipoMoto2 = TipoMoto.MOTOHIBRIDA;
                     Moto motoHibrida = new Moto(modelo, placa, propietario, velocidadMaxima, tipoMoto2);
-                    ubicarVehiculo(i, j, motoHibrida, ingreso);
+                    asignarPuestoVehiculo(i, j, motoHibrida, ingreso);
                     placasRegistradas.add(placa);
-                }
+                    identificacionesPropietarios.add(identificacion);                             
+                    }
                 break;
-            default:
-                System.out.println("Opción inválida.");
-                break;
-        }
-        
-    }
-    
-    /**
-     * Método para ubicar un vehículo en un puesto específico del parqueadero
-     * @param i
-     * @param j
-     * @param vehiculo
-     * @param ingreso
-     */
-    public void ubicarVehiculo(int i, int j, Vehiculo vehiculo, LocalDateTime ingreso) {
-        assert i >= 0 && i < filas : "La fila está fuera de los límites.";
-        assert j >= 0 && j < columnas : "La columna está fuera de los límites.";
-        if (verificarDisponibilidadPuesto(i, j)) {
-            puestos[i][j].ocuparPuesto(vehiculo);
-            registros.add(new Registro(vehiculo, puestos[i][j], ingreso));
-            System.out.println("Vehículo registrado exitosamente.");
-        } 
-        else {
-            System.out.println("El puesto ya está ocupado.");
         }
     }
           
-    /*
-     * Método para buscar el propietario de un vehículo en un puesto especifico
-     */
-    public void buscarPropietario() {
-        System.out.println("Ingrese la fila en la que se encuentra el vehículo: ");
-        int i = scanner.nextInt();
-        scanner.nextLine();
-
-        System.out.println("Ingrese la columna en la que se encuentra el vehículo: ");
-        int j = scanner.nextInt();
-        scanner.nextLine();
-
-        Propietario propietario = identificarPropietario(i, j);
-
-        if(propietario != null){
-            System.out.println(propietario);
-        }
-        else {
-            System.out.println("El puesto esta vacío");
-        }
-    }
-
     /**
-     * Método para identificar el propietario de un vehículo en un puesto especifico
+     * Método para buscar el propietario de un vehículo en un puesto especifico
      * @param i
      * @param j
      * @return
      */
-    public Propietario identificarPropietario(int i, int j) {
+    public Propietario buscarPropietarioVehiculo(int i, int j) {
         assert i >= 0 && i < filas;
         assert j >= 0 && j < columnas;
 
@@ -354,13 +501,60 @@ public class Parqueadero {
         }
     }
 
+    /*
+     * Método para obtener el propietario de un vehículo en un puesto especifico
+     */
+    public void obtenerPropietarioVehiculo() {
+        int i = -1;
+        int j = -1;
+        String input;
+        do {
+            System.out.println("Ingrese la fila en la que se encuentra el vehículo: ");
+            input = scanner.nextLine();
+            if(input.matches("-?\\d+")) {
+                i = Integer.parseInt(input);
+                if(i < 0 || i > puestos.length - 1) {
+                    System.out.println("El número de fila esta fuera de los limites");
+                }
+            }
+            else {
+                System.out.println("El número de fila no es válido");
+            }   
+        }
+        while(i < 0 || i > puestos.length - 1);
+
+        do {
+            System.out.println("Ingrese la columna en la que se encuentra el vehículo: ");
+            input = scanner.nextLine();
+            if(input.matches("-?\\d+")) {
+                j = Integer.parseInt(input);
+                if(j < 0 || j > puestos.length - 1) {
+                    System.out.println("El número de columna esta fuera de los limites");
+                }
+            }
+            else {
+                System.out.println("El número de columna no es válido");
+            }   
+        }
+        while(j < 0 || j > puestos.length - 1);
+
+        Propietario propietario = buscarPropietarioVehiculo(i, j);
+
+        if(propietario != null){
+            System.out.println(propietario);
+        }
+        else {
+            System.out.println("El puesto esta vacío");
+        }
+    }
+
     /**
-     * Método para obtener el registro de un vehículo que no ha salido
+     * Método para obtener el registro de un vehículo que no ha salido del parqueadero
      * @param vehiculo
      * @return
      */
-    public Registro obtenerRegistro(Vehiculo vehiculo) {
-        for (Registro registro : registros) {
+    public Registro obtenerRegistroVehiculoSinSalir(Vehiculo vehiculo) {
+        for (Registro registro : registrosDiarios) {
             if (registro.getVehiculo().equals(vehiculo)) {
                 return registro;
             }
@@ -368,64 +562,65 @@ public class Parqueadero {
         return null;
     }
 
-    /*
-     * Método para configurar las tarifas por horas de cada vehículo
+    /**
+     * Método para obtener el registro de un vehículo que ha salido del parqueadero
+     * @param vehiculo
+     * @return
      */
-    public void configurarTarifasPorHora() {
-        double tarifaCarro, tarifaClasica, tarifaHibrida;
-
-        do {
-            System.out.println("Ingresar la tarifa por hora para carros: ");
-            tarifaCarro = scanner.nextDouble();
-            scanner.nextLine();
-
-            System.out.println("Ingresar la tarifa por hora para motos clasicas: ");
-            tarifaClasica = scanner.nextDouble();
-            scanner.nextLine();
-            
-            System.out.println("Ingresar la tarifa por hora para motos hibridas");
-            tarifaHibrida = scanner.nextDouble();
-            scanner.nextLine();
-
-            if(tarifaCarro < 0 || tarifaClasica < 0 || tarifaHibrida < 0) {
-                System.out.println("Las tarifas no pueden ser negativas");
+    public Registro obtenerRegistroVehiculoSalido(Vehiculo vehiculo) {
+        for (Registro registro : registrosHistoricos) {
+            if (registro.getVehiculo().equals(vehiculo)) {
+                return registro;
             }
         }
-        while(tarifaCarro < 0 || tarifaClasica < 0 || tarifaHibrida < 0);
-
-        System.out.println("Se configuraron las tarifas correctamente");
-
-        Carro.setTarifaPorHoraCarro(tarifaCarro);
-        Moto.setTarifaPorHoraMotoClasica(tarifaClasica);
-        Moto.setTarifaPorHoraMotoHibrida(tarifaHibrida);
-    }
-     
-    /*
-     * Método para la salida de un vehículo
-     */
-    public void salidaVehiculo() {
-        
-        System.out.println("Ingresar el número de la fila: ");
-        int i = scanner.nextInt();
-        scanner.nextLine();
-
-        System.out.println("Ingresar el número de la columna: ");
-        int j = scanner.nextInt();
-        scanner.nextLine();
-
-        if(i < 0 || i >= filas || j < 0 || j >= columnas) {
-            System.out.println("Los valores de fila o columna están fuera de los límites.");
-        }
-        else if(puestos[i][j].estaOcupado()) {
-            liberarPuesto(i, j);
-        }
-        else {
-            System.out.println("El puesto está libre");
-        }
+        return null;
     }
 
     /**
-     * Método para desocupar un puesto en el parqueadero y actualizar lo recaudado diario y mensual
+     * Método para buscar un vehículo por su placa
+     * @param placa
+     * @return
+     */
+    public Vehiculo buscarVehiculoPorPlaca(String placa) {
+        for (Registro registro : registrosHistoricos) {
+            if (registro.getVehiculo().getPlaca().equalsIgnoreCase(placa)) {
+                return registro.getVehiculo();
+            }
+        }
+        return null;
+    }
+
+    /*
+     * Método para obtener el registro de un vehículo
+     */
+    public void obtenerRegistroVehiculo() {
+        if(!placasRegistradas.isEmpty()) {
+            System.out.println("Ingrese la placa del vehículo");
+            String placa = scanner.nextLine();
+
+            while(!placasRegistradas.contains(placa)) {
+                System.out.println("La placa ingresada no se encuentra registrada en el parqueadero, por favor ingrese  una placa válida");
+                placa = scanner.nextLine();
+            }
+            Vehiculo vehiculo = buscarVehiculoPorPlaca(placa);
+
+            if(vehiculo != null) {
+                Registro registro = obtenerRegistroVehiculoSalido(vehiculo);
+                if(registro != null) {
+                    System.out.println(registro);
+                }
+            }    
+            else {
+                System.out.println("No se encontró vehículo con esa placa.");
+            }
+        }
+        else {
+            System.out.println("No se han registrado vehículos en el parqueadero");
+        }        
+    }
+
+    /**
+     * Método para desocupar un puesto en el parqueadero y actualizar el recaudado diario y mensual
      * @param i
      * @param j
      */
@@ -433,7 +628,7 @@ public class Parqueadero {
         assert i >= 0 && i < filas;
         assert j >= 0 && j < columnas;
         if(puestos[i][j].estaOcupado()) {
-            Registro registro = obtenerRegistro(puestos[i][j].getVehiculo());
+            Registro registro = obtenerRegistroVehiculoSinSalir(puestos[i][j].getVehiculo());
             if(registro != null) {
                 registro.setSalida(LocalDateTime.now());                
                 actualizarRecaudaciones(registro.calcularCosto());
@@ -446,36 +641,50 @@ public class Parqueadero {
     /*
      * Método para registrar la salida de un vehículo
      */
-    public void registroVehiculoSalida() {
-        System.out.println("Ingrese la placa del vehículo");
-        String placa = scanner.nextLine();
+    public void registrarSalidaVehiculo() {
+        int i = -1; 
+        int j = -1;
+        String input;
 
-        Vehiculo vehiculo = buscarVehiculoPorPlaca(placa);
-
-        if(vehiculo != null) {
-            Registro registro = obtenerRegistro(vehiculo);
-            if(registro != null) {
-                System.out.println(registro);
+        do {
+            System.out.println("Ingresar el número de la fila");
+            input = scanner.nextLine();
+            if(input.matches("-?\\d+")) {
+                i = Integer.parseInt(input);
+                if(i < 0 || i > puestos.length - 1) {
+                    System.out.println("El número de la fila esta fuera de los límites.");
+                }
             }
-        } else {
-            System.out.println("No se encontró vehículo con esa placa.");
+            else {
+                System.out.println("El número de fila no es valido.");
+            }
+            
+        }while(i < 0 || i > puestos.length - 1);
+
+        do {
+            System.out.println("Ingresar el número de la columna");
+            input = scanner.nextLine();
+            if(input.matches("-?\\d+")) {
+                j = Integer.parseInt(input);
+                if(j < 0 || j > puestos.length - 1) {
+                    System.out.println("El número de la columna esta fuera de los límites.");
+                }
+            }
+            else {
+                System.out.println("El número de columna no es valido.");
+            }
+            
+        }while(j < 0 || j > puestos.length - 1);
+
+
+        if(puestos[i][j].estaOcupado()) {
+            liberarPuesto(i, j);
+        }
+        else {
+            System.out.println("El puesto está libre");
         }
     }
-
-    /**
-     * Método para buscar un vehículo por su placa
-     * @param placa
-     * @return
-     */
-    public Vehiculo buscarVehiculoPorPlaca(String placa) {
-        for (Registro registro : registros) {
-            if (registro.getSalida() != null && registro.getVehiculo().getPlaca().equalsIgnoreCase(placa)) {
-                return registro.getVehiculo();
-            }
-        }
-        return null;
-    }
- 
+        
     /**
      * Método para actualizar las recaudaciones diarias y mensuales
      * @param costo
@@ -496,7 +705,7 @@ public class Parqueadero {
         double totalMotosClasicas = 0;
         double totalMotosHibridas = 0;
 
-        for (Registro registro : registros) {
+        for (Registro registro : registrosDiarios) {
             if (registro.getSalida() != null) {
                 if (registro.getVehiculo() instanceof Carro) {
                     totalCarros += registro.calcularCosto();
@@ -518,6 +727,7 @@ public class Parqueadero {
         System.out.println("Motos Híbridas: " + totalMotosHibridas + " Pesos");    
 
         totalRecaudadoDiario = 0;
+        registrosDiarios.clear();
     }
         
     /*

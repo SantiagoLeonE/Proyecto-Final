@@ -2,6 +2,7 @@ package co.edu.uniquindio.poo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.logging.Logger;
@@ -41,5 +42,17 @@ public class PuestoTest {
         assertEquals(carro, puesto.getVehiculo());
         puesto.desocuparPuesto();
         assertFalse(puesto.estaOcupado());
+    }
+
+    /*
+     * Método para no poder crear un puesto con valores negativos
+     */
+    @Test
+    public void datosPuestoNegativo() {
+        LOG.info("Inicio test datosPuestoNegativo");
+
+        assertThrows(Throwable.class, ()-> new Puesto(-2, -1) );
+
+        LOG.info("Inicio test datosPuestoNegativo");
     }
 }

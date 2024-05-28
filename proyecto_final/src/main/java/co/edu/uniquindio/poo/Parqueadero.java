@@ -361,6 +361,7 @@ public class Parqueadero {
             do {
                 System.out.println("Ingresar el número de la fila");
                 input = scanner.nextLine();
+                //Verificar si en la variable input se ingreso un valor que se puede pasar a un numero entero sin importar si es negativo
                 if(input.matches("-?\\d+")) {
                     i = Integer.parseInt(input);
                     if(i < 0 || i > puestos.length - 1) {
@@ -376,6 +377,7 @@ public class Parqueadero {
             do {
                 System.out.println("Ingresar el número de la columna");
                 input = scanner.nextLine();
+                //Verificar si en la variable input se ingreso un valor que se puede pasar a un numero entero sin importar si es negativo
                 if(input.matches("-?\\d+")) {
                     j = Integer.parseInt(input);
                     if(j < 0 || j > puestos.length - 1) {
@@ -399,9 +401,11 @@ public class Parqueadero {
         do {
             System.out.println("Ingresar el nombre del propietario");
             nombre = scanner.nextLine();
+            //Verificar que la variable nombre no pueda estar vacia
             if(nombre.isBlank()) {
                 System.out.println("El nombre no puede estar vacío");
             }
+            //Condición para verificar que un nombre solo debe contener caracteres del abecedario 
             else if(!Pattern.matches("[a-zA-z ]+", nombre)) {
                 System.out.println("El nombre no puede contener números ni caracteres especiales");
             }
@@ -412,9 +416,11 @@ public class Parqueadero {
         do {
             System.out.println("Ingresar la identificación del propietario");
             identificacion = scanner.nextLine();
+            //Verificar que la variable nombre no pueda estar vacia
             if(identificacion.isBlank()) {
                 System.out.println("La identificación no puede estar vacía");
             }
+            //Condición para verificar que no se pueda registrar una identificacion que ya ha sido registrada anteriormente
             else if(verificarIdExiste(identificacion)) {
                 System.out.println("La identificación ya existe. Por favor ingresar una identificación valida");
             }
@@ -440,9 +446,11 @@ public class Parqueadero {
         do {
             System.out.println("Ingresar el modelo del vehiculo: ");
             modelo = scanner.nextLine();
+            //Verificar que la variable modelo no pueda estar vacía
             if(modelo.isBlank()) {
                 System.out.println("El modelo no puede estar vacío");
             }
+            //Condición para verificar que un modelo debe ser un número de 4 dígitos
             else if(!Pattern.matches("\\d{4}", modelo)) {
                 System.out.println("El modelo debe ser un número de 4 dígitos");
             }
@@ -453,9 +461,11 @@ public class Parqueadero {
         do {
             System.out.println("Ingresar la placa del vehiculo: ");
             placa = scanner.nextLine();
+            //Verificar que la variable placa no pueda estar vacía
             if(placa.isBlank()) {
                 System.out.println("La placa no puede estar vacía");
             }
+            //Condición para verificar que no se pueda registrar una placa que ya ha sido registrada anteriormente
             else if(verificarPlacaExiste(placa)) {
                 System.out.println("La placa ya existe. Por favor ingresar una placa valida");
             }
@@ -476,6 +486,7 @@ public class Parqueadero {
                 do {
                     System.out.println("Ingresar la velocidad máxima de la moto");
                     input = scanner.nextLine();
+                    //Condicion para verificar que lo ingresado en la variable input se pueda convertir en un numero entero, ya sea positivo o negativo
                     if(input.matches("-?\\d+")) {
                         velocidadMaxima = Integer.parseInt(input);
                         if(velocidadMaxima < 0) {
@@ -487,6 +498,7 @@ public class Parqueadero {
                     }        
                 }
                 while(velocidadMaxima < 0);
+
 
                 if(!verificarPlacaExiste(placa)) { 
                     TipoMoto tipoMoto1 = TipoMoto.MOTOCLASICA;
@@ -500,6 +512,7 @@ public class Parqueadero {
                 do {
                     System.out.println("Ingresar la velocidad máxima de la moto");
                     input = scanner.nextLine();
+                    //Condicion para verificar que lo ingresado en la variable input se pueda convertir en un numero entero, ya sea positivo o negativo
                     if(input.matches("-?\\d+")) {
                         velocidadMaxima = Integer.parseInt(input);
                         if(velocidadMaxima < 0) {
@@ -702,6 +715,7 @@ public void obtenerRegistroVehiculo() {
         do {
             System.out.println("Ingresar el número de la fila");
             input = scanner.nextLine();
+            //Condicion para verificar que lo ingresado en la variable input se pueda convertir en un numero entero, ya sea positivo o negativo
             if(input.matches("-?\\d+")) {
                 i = Integer.parseInt(input);
                 if(i < 0 || i > puestos.length - 1) {
@@ -717,6 +731,7 @@ public void obtenerRegistroVehiculo() {
         do {
             System.out.println("Ingresar el número de la columna");
             input = scanner.nextLine();
+            //Condicion para verificar que lo ingresado en la variable input se pueda convertir en un numero entero, ya sea positivo o negativo
             if(input.matches("-?\\d+")) {
                 j = Integer.parseInt(input);
                 if(j < 0 || j > puestos.length - 1) {

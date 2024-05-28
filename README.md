@@ -1,2 +1,2 @@
 # Proyecto-Final de Programación 1
-Se desea desarrollar una aplicación para la administración de un parqueadero 
+Se desarrolló un programa para la administración de un parqueadero, utilizando un método interactivo el cual nos ofrece opciones como poder configurar la tarifa para los vehiculos, registrar el ingreso de un vehiculo, tambien registrar su salida, además se puede ver la disponibilidad del parqueadero, obtener la información del propietario de un vehículo, obtener el registro de un vehículo con su placa y por último generar reportes diarios y mensuales para saber cuánto se genero en un día y en el mes. 

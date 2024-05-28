@@ -690,68 +690,93 @@ public void obtenerRegistroVehiculo() {
      * @param i
      * @param j
      */
-    public void liberarPuesto(int i, int j) {
-        assert i >= 0 && i < filas;
-        assert j >= 0 && j < columnas;
-        if(puestos[i][j].estaOcupado()) {
-            Registro registro = obtenerRegistroVehiculoSinSalir(puestos[i][j].getVehiculo());
-            if(registro != null) {
-                registro.setSalida(LocalDateTime.now());                
-                actualizarRecaudaciones(registro.calcularCosto());
-                System.out.println("El puesto: " + puestos[i][j] + " ha quedado libre: ");
-            }
-            puestos[i][j].desocuparPuesto();
-        }   
+    
+     /**
+ * Este método libera un puesto de estacionamiento dado por su posición en la matriz de puestos.
+ * @param i La fila del puesto a liberar.
+ * @param j La columna del puesto a liberar.
+ */
+public void liberarPuesto(int i, int j) {
+    // Asegurarse de que los índices de fila y columna estén dentro de los límites válidos de la matriz.
+    assert i >= 0 && i < filas;
+    assert j >= 0 && j < columnas;
+
+    // Verificar si el puesto de estacionamiento en la posición dada está ocupado.
+    if(puestos[i][j].estaOcupado()) {
+        // Obtener el registro del vehículo que ocupa el puesto de estacionamiento.
+        Registro registro = obtenerRegistroVehiculoSinSalir(puestos[i][j].getVehiculo());
+        // Verificar si se encontró un registro válido para el vehículo que ocupa el puesto.
+        if(registro != null) {
+            // Establecer la hora de salida del vehículo en el registro como la hora actual.
+            registro.setSalida(LocalDateTime.now());
+            // Actualizar las recaudaciones del estacionamiento con el costo calculado del registro.
+            actualizarRecaudaciones(registro.calcularCosto());
+            // Imprimir un mensaje indicando que el puesto de estacionamiento ha quedado libre.
+            System.out.println("El puesto: " + puestos[i][j] + " ha quedado libre: ");
+        }
+        // Desocupar el puesto de estacionamiento.
+        puestos[i][j].desocuparPuesto();
     }
+}
+
 
     /*
      * Método para registrar la salida de un vehículo
      */
-    public void registrarSalidaVehiculo() {
-        int i = -1; 
-        int j = -1;
-        String input;
+    
+     /**
+ * Este método maneja el proceso de registro de la salida de un vehículo del estacionamiento.
+ */
+public void registrarSalidaVehiculo() {
+    // Se inicializan las variables i y j con el valor -1.
+    int i = -1; 
+    int j = -1;
+    // Se declara una variable input de tipo String que se utilizará para almacenar la entrada del usuario.
+    String input;
 
-        do {
-            System.out.println("Ingresar el número de la fila");
-            input = scanner.nextLine();
-            //Condicion para verificar que lo ingresado en la variable input se pueda convertir en un numero entero, ya sea positivo o negativo
-            if(input.matches("-?\\d+")) {
-                i = Integer.parseInt(input);
-                if(i < 0 || i > puestos.length - 1) {
-                    System.out.println("El número de la fila esta fuera de los límites.");
-                }
+    // Bucle para obtener el número de fila del puesto de estacionamiento a liberar.
+    do {
+        System.out.println("Ingresar el número de la fila");
+        input = scanner.nextLine();
+        // Condición para verificar que la entrada sea un número entero válido.
+        if(input.matches("-?\\d+")) {
+            i = Integer.parseInt(input);
+            // Verificar si el número de fila está dentro de los límites del estacionamiento.
+            if(i < 0 || i > puestos.length - 1) {
+                System.out.println("El número de la fila está fuera de los límites.");
             }
-            else {
-                System.out.println("El número de fila no es valido.");
-            }
-            
-        }while(i < 0 || i > puestos.length - 1);
-
-        do {
-            System.out.println("Ingresar el número de la columna");
-            input = scanner.nextLine();
-            //Condicion para verificar que lo ingresado en la variable input se pueda convertir en un numero entero, ya sea positivo o negativo
-            if(input.matches("-?\\d+")) {
-                j = Integer.parseInt(input);
-                if(j < 0 || j > puestos.length - 1) {
-                    System.out.println("El número de la columna esta fuera de los límites.");
-                }
-            }
-            else {
-                System.out.println("El número de columna no es valido.");
-            }
-            
-        }while(j < 0 || j > puestos.length - 1);
-
-
-        if(puestos[i][j].estaOcupado()) {
-            liberarPuesto(i, j);
         }
         else {
-            System.out.println("El puesto está libre");
+            System.out.println("El número de fila no es válido.");
         }
+    } while(i < 0 || i > puestos.length - 1);
+
+    // Bucle para obtener el número de columna del puesto de estacionamiento a liberar.
+    do {
+        System.out.println("Ingresar el número de la columna");
+        input = scanner.nextLine();
+        // Condición para verificar que la entrada sea un número entero válido.
+        if(input.matches("-?\\d+")) {
+            j = Integer.parseInt(input);
+            // Verificar si el número de columna está dentro de los límites del estacionamiento.
+            if(j < 0 || j > puestos.length - 1) {
+                System.out.println("El número de la columna está fuera de los límites.");
+            }
+        }
+        else {
+            System.out.println("El número de columna no es válido.");
+        }
+    } while(j < 0 || j > puestos.length - 1);
+
+    // Verificar si el puesto de estacionamiento en la posición dada está ocupado.
+    if(puestos[i][j].estaOcupado()) {
+        liberarPuesto(i, j); // Liberar el puesto si está ocupado.
     }
+    else {
+        System.out.println("El puesto está libre");
+    }
+}
+
         
     /**
      * Método para actualizar las recaudaciones diarias y mensuales

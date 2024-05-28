@@ -6,8 +6,7 @@ public class Main {
     private static Scanner scanner = new Scanner(System.in);
     private static Parqueadero parqueadero = new Parqueadero(2, 2);
 
-    Vehiculo moto = new Moto("2020", "RHW56E", new Propietario("Santiago", "1096"), 120, TipoMoto.MOTOCLASICA);
-
+    
     public static void main(String[] args) {
         String opcion = "0";
         while(!opcion.equals("9")) {
